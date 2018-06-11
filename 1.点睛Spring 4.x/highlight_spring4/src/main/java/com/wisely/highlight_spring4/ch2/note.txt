@@ -1,0 +1,2 @@
+Spring常用配置
+1. Bean的scope:            scope
