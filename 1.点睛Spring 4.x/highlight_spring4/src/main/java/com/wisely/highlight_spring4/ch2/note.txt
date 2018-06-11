@@ -1,3 +1,4 @@
 Spring常用配置
 1. Bean的scope:            scope
 2. Spring EL和资源调用     el
+3. Bean的初始化和销毁      prepost
