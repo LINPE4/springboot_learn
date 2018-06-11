@@ -12,6 +12,6 @@ public class Main {
 		 System.out.println(useFunctionService.SayHello("java config"));
 
 		 context.close();
-		
+
 	}
 }
