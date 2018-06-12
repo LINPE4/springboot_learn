@@ -1,15 +1,19 @@
 package com.wisely.highlight_springmvc4;
 
 import com.wisely.highlight_springmvc4.interceptor.DemoInterceptor;
+import com.wisely.highlight_springmvc4.messageconverter.MyMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import java.util.List;
 
 @Configuration
 @EnableWebMvc// 1 EnableWebMvc开启Springmvc支持，若无此句，重写WebMvcConfigurerAdapter方法无效
@@ -63,5 +67,14 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {// 2 集成WebMvcConfi
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
         multipartResolver.setMaxUploadSize(1000000);
         return multipartResolver;
+    }
+
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(converter());
+    }
+
+    @Bean
+    public MyMessageConverter converter() {
+        return new MyMessageConverter();
     }
 }
