@@ -1,3 +1,7 @@
 Spring高级话题
 1. spring Aware（资源）:           aware
 2. 多线程：                        taskexecutor
+3. 计划任务                        taskscheduler
+4. 条件注解@Conditional            conditional
+5. 组合注解与元注解                annotation
+6. 测试                            fortest
