@@ -5,10 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -45,4 +42,19 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {// 2 集成WebMvcConfi
     public void addInterceptors(InterceptorRegistry registry) {// 2 重写addInterceptors方法，注册拦截器
         registry.addInterceptor(demoInterceptor());
     }
+
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/index").setViewName("/index");
+        registry.addViewController("/toUpload").setViewName("/upload");
+        registry.addViewController("/converter").setViewName("/converter");
+        registry.addViewController("/sse").setViewName("/sse");
+        registry.addViewController("/async").setViewName("/async");
+    }
+
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) { //通过重写configurePathMatch方法可以不忽略"."后面的参数
+        configurer.setUseSuffixPatternMatch(false);
+    }
+
+
 }
