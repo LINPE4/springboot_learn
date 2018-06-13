@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wisely.ch6_2_3.config.AuthorSettings;
@@ -15,6 +16,7 @@ public class Ch623Application {
 	private AuthorSettings authorSettings; //1 可以用Autowired直接注入该配置
 	
 	@RequestMapping("/")
+	@ResponseBody
 	public String index(){
 		return "author name is "+ authorSettings.getName()+" and author age is "+authorSettings.getAge();
 	}
