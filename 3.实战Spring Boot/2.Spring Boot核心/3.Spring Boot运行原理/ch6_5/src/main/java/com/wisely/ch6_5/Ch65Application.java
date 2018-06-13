@@ -1,6 +1,6 @@
 package com.wisely.ch6_5;
 
-import com.wisely.ch6_5.service.HelloService;
+import com.wisely.spring_boot_starter_hello.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

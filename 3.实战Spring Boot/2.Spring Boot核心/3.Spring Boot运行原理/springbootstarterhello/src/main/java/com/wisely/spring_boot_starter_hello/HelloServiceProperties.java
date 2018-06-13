@@ -1,11 +1,10 @@
-package com.wisely.ch6_5.config;
+package com.wisely.spring_boot_starter_hello;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 @ConfigurationProperties(prefix = "hello")
-@Component
-public class Hello {
+public class HelloServiceProperties {
+//    private static final String MSG = "world";
     private String msg;
 
     public String getMsg() {
