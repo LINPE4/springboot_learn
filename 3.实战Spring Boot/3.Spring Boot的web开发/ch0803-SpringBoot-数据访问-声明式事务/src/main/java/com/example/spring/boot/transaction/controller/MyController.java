@@ -25,4 +25,24 @@ public class MyController {
     public Person noRollback(Person person) {//2
         return demoService.savePersonWithoutRollBack(person);
     }
+
+    @RequestMapping("/testException")
+    public Person testException() {//2
+        return demoService.testException();
+    }
+
+    @RequestMapping("/testCatchException")
+    public Person testCatchException() {//2
+        return demoService.testCatchException();
+    }
+
+    @RequestMapping("/testNestTransaction")
+    public void testNestTransaction() {//2
+         demoService.saveA();
+    }
+
+    @RequestMapping("/testNestTransactionWithDiffService")
+    public void testNestTransactionWithDiffService() {//2
+        demoService.saveAC();
+    }
 }

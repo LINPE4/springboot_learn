@@ -3,10 +3,12 @@ package com.example.spring.boot.transaction.service.impl;
 import com.example.spring.boot.transaction.dao.PersonRepository;
 import com.example.spring.boot.transaction.domain.Person;
 import com.example.spring.boot.transaction.service.DemoService;
+import com.example.spring.boot.transaction.service.DemoService2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 /**
  * Author: 王俊超
@@ -18,6 +20,9 @@ public class DemoServiceImpl implements DemoService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private DemoService2 demoService2;
 
     /**
      * 事务属性：
@@ -39,6 +44,11 @@ public class DemoServiceImpl implements DemoService {
      *              mandatory
      *                  强制方法再事务中执行，若无事务则抛出异常
      *        isolation
+     *              Read_uncommitted: 读未提交
+     *              Read_committed:读提交
+     *              REPEATABLE_READ:重复读
+     *              SERIALIZABLE:序列化
+     *
      * @param person
      * @return
      */
@@ -63,4 +73,84 @@ public class DemoServiceImpl implements DemoService {
         }
         return p;
     }
+
+    /**
+     * 不做异常捕获，事务能回滚
+     * @return
+     */
+    @Override
+    @Transactional
+    public Person testException() {
+        Person person = new Person();
+        person.setName("peter");
+        person.setAge(25);
+        Person p = personRepository.save(person);
+        int a = 10/0;
+        return p;
+    }
+
+    /**
+     * 如果在程序中捕获异常， 则事务不回滚
+     * 要使事务回滚，则需要再catch中再次抛出异常
+     *          TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();或者
+     *          throw new RuntimeException();
+     * @return
+     */
+    @Override
+    @Transactional
+    public Person testCatchException() {
+        try {
+            Person person = new Person();
+            person.setName("peter2");
+            person.setAge(25);
+            Person p = personRepository.save(person);
+            int a = 10/0;
+            return p;
+        } catch (Exception e) {
+            e.printStackTrace();
+//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//            throw new RuntimeException();
+        }
+        return null;
+    }
+
+    /**
+     * 在同一个类中，如果有事务嵌套，方法A（Propagation.REQUIRED）调用了方法B(Propagation.REQUIRES_NEW)，假如方法B出现异常，则一整个事务回滚，这是因为
+     * spring开启事务的时候开启的是代理类， 同一个类中的方法都在此代理类中
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveA() {
+        Person personA = new Person();
+        personA.setName("peterA");
+        personA.setAge(25);
+        Person p = personRepository.save(personA);
+        saveB();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveB() {
+        Person personB = new Person();
+        personB.setName("personB");
+        personB.setAge(15);
+        Person p = personRepository.save(personB);
+        int a = 10 / 0;
+    }
+
+    /**
+     * 网上说不同的service嵌套事务能生成各自的代理，如果demoService2.saveC()【requires_new】有异常，则saveAC（）不受影响能保存成功，
+     * 但是经过本人测试也是同时回滚的;
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveAC() {
+        Person peterAA = new Person();
+        peterAA.setName("peterAA");
+        peterAA.setAge(255);
+        Person p = personRepository.save(peterAA);
+        demoService2.saveC();
+    }
+
+
 }

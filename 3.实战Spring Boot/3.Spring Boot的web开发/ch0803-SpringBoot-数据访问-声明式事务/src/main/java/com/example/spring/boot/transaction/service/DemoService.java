@@ -10,4 +10,14 @@ import com.example.spring.boot.transaction.domain.Person;
 public interface DemoService {
     Person savePersonWithRollBack(Person person);
     Person savePersonWithoutRollBack(Person person);
+
+    Person testException();
+
+    Person testCatchException();
+
+    void saveA();
+
+    void saveB();
+
+    void saveAC();
 }
