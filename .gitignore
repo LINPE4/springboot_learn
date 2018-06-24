@@ -27,7 +27,8 @@ Thumbs.db
 *.lib
 *.sbr
 *.jar
-/target/*
+**/target/**
+**/.idea/**
 obj/
 [Rr]elease*/
 _ReSharper*/
