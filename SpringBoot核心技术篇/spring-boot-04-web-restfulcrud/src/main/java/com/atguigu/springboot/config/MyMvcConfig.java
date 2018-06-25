@@ -1,5 +1,6 @@
 package com.atguigu.springboot.config;
 
+import com.atguigu.springboot.component.LoginHandlerInterceptor;
 import com.atguigu.springboot.component.MyLocaleResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,17 +34,23 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
                 registry.addViewController("/main.html").setViewName("dashboard");
             }
 
-            //注册拦截器
-            @Override
-            public void addInterceptors(InterceptorRegistry registry) {
-                //super.addInterceptors(registry);
-                //静态资源；  *.css , *.js
-                //SpringBoot已经做好了静态资源映射
-//                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**")
-//                        .excludePathPatterns("/index.html","/","/user/login");
-            }
+
         };
         return adapter;
+    }
+    //注册拦截器
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+//        super.addInterceptors(registry);
+        //静态资源；  *.css , *.js
+        //SpringBoot已经做好了静态资源映射
+        registry.addInterceptor(loginHandlerInterceptor()).addPathPatterns("/**")
+                .excludePathPatterns("/index.html","/","/user/login");
+    }
+
+    @Bean
+    public LoginHandlerInterceptor loginHandlerInterceptor() {
+        return new LoginHandlerInterceptor();
     }
 
     @Bean
