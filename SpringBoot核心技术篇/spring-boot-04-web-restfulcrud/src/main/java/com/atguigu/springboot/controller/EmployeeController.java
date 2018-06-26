@@ -51,6 +51,7 @@ public class EmployeeController {
         employeeDao.save(employee);
         // redirect: 表示重定向到一个地址  /代表当前项目路径
         // forward: 表示转发到一个地址
+        // ThymeleafViewResolver.java
         return "redirect:/emps";
     }
 
