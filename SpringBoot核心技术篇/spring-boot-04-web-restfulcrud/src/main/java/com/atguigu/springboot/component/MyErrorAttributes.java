@@ -25,7 +25,7 @@ public class MyErrorAttributes extends DefaultErrorAttributes {
 //        map.put("ext",ext);
 //        return map;
 //    }
-    
+
     //返回值的map就是页面和json能获取的所有字段
     public Map<String, Object> getErrorAttributes(WebRequest webRequest,
                                                   boolean includeStackTrace) {
