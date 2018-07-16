@@ -12,6 +12,9 @@ public class Ch65Application {
 	
 	@Autowired
 	HelloService helloService;
+
+	@Autowired
+	ApplicationStartListener applicationStartListener;
 	
 	@RequestMapping("/")
 	public String index(){
