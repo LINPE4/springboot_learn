@@ -7,7 +7,7 @@ public class MyFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        System.out.println("MyFilter init...");
     }
 
     @Override
@@ -19,6 +19,6 @@ public class MyFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        System.out.println("MyFilter destroy...");
     }
 }
