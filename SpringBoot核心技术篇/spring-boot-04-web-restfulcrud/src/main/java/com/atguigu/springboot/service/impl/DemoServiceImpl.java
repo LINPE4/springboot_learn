@@ -138,8 +138,8 @@ public class DemoServiceImpl implements DemoService {
     }
 
     /**
-     * 网上说不同的service嵌套事务能生成各自的代理，如果demoService2.saveC()【requires_new】有异常，则saveAC（）不受影响能保存成功，
-     * 但是经过本人测试也是同时回滚的;
+     * 不同的service嵌套事务能生成各自的代理，如果demoService2.saveC()【requires_new】有异常，则saveAC（）不受影响能保存成功，
+     *
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
